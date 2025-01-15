@@ -25,6 +25,7 @@ from pyspark.sql.window import Window as W
 import argparse
 import sys
 from timeit import default_timer as timer
+import logging
 
 
 def parseArguments():
@@ -170,6 +171,11 @@ def main():
 
     Logger= spark._jvm.org.apache.log4j.Logger
     joblogger = Logger.getLogger(__name__)
+    jobLogger.setLevel(logging.INFO)
+    handler = logging.StreamHandler(sys.stdout)
+    formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+    handler.setFormatter(formatter)
+    jobLogger.addHandler(handler)
     joblogger.info('**********************************************************************')
     joblogger.info('')
     joblogger.info(
